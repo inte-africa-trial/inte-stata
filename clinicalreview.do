@@ -6,12 +6,12 @@ quietly: do "get_env.do"
 
 quietly: include "${do_folder}demographics_and_assignment.do"
 
-do "/Users/erikvw/Documents/ucl/protocols/inte/stata/open_table.do" "inte_subject" "clinicalreview"
+do "${do_folder}open_table.do" "inte_subject" "clinicalreview"
 
 tempfile clinicalreview
 save `clinicalreview'
 
-quietly: include "/Users/erikvw/Documents/ucl/protocols/inte/stata/endofstudy.do"
+quietly: include "${do_folder}endofstudy.do"
 tempfile endofstudy
 save `endofstudy'
 
