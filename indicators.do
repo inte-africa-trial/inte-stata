@@ -6,7 +6,7 @@ quietly: do "get_env.do"
 
 quietly: include "${do_folder}demographics_and_assignment.do"
 
-quietly: do "/Users/erikvw/Documents/ucl/protocols/inte/stata/open_table.do" "inte_subject" "indicators"
+quietly: do "${do_folder}open_table.do" "inte_subject" "indicators"
 
 sort subject_identifier report_datetime
 
@@ -26,7 +26,7 @@ list subject_identifier report_datetime duration dia_mean dia_diff dia_perc_c
 tempfile indicators
 save `indicators'
 
-quietly: include "/Users/erikvw/Documents/ucl/protocols/inte/stata/endofstudy.do"
+quietly: include "${do_folder}endofstudy.do"
 tempfile endofstudy
 save `endofstudy'
 
