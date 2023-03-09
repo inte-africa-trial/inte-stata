@@ -20,3 +20,9 @@ create an `env.txt`
 where `yyyymmdd` is the timestamp suffix on the dta files.
 
 copy the `env.txt` to ~/path/to/dta/folder
+
+open STATA:
+
+.. code-block:: bash
+
+    cd ~/path/to/dta/folder
