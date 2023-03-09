@@ -2,10 +2,9 @@
 
 clear
 
-local do_folder "~/Documents/ucl/protocols/inte/stata/"
+quietly: do "get_env.do"
 
-
-do "`do_folder'/open_table.do" "20230306" "inte_subject" "hivinitialreview"
+quietly: do "${do_folder}open_table.do" "inte_subject" "hivinitialreview"
 drop if visit_code!="1000" | visit_code_sequence!=0
 rename dx_estimated_date hiv_dx_estimated_date
 keep subject_identifier hiv_dx_estimated_date
@@ -19,7 +18,7 @@ tempfile hivinitialreview
 save `hivinitialreview'
 
 
-do "`do_folder'open_table.do" "20230306" "inte_subject" "htninitialreview"
+quietly: do "${do_folder}open_table.do" "inte_subject" "htninitialreview"
 * subject only has a 1000.1 visit. recode to 1000.0
 replace visit_code_sequence =0 if subject_identifier == "103-114-0011-2"
 drop if visit_code!="1000" | visit_code_sequence!=0
@@ -29,7 +28,7 @@ gen htn =1
 tempfile htninitialreview
 save `htninitialreview'
 
-do "`do_folder'open_table.do" "20230306" "inte_subject" "dminitialreview"
+quietly: do "${do_folder}open_table.do" "inte_subject" "dminitialreview"
 drop if visit_code!="1000" | visit_code_sequence!=0
 rename dx_estimated_date dm_dx_estimated_date
 keep subject_identifier dm_dx_estimated_date
@@ -38,19 +37,7 @@ tempfile dminitialreview
 save `dminitialreview'
 
 
-do "`do_folder'demographics_and_assignment.do" "20230306" "`do_folder'"
-
-/*
-use "/Users/erikvw/Documents/ucl/protocols/inte/export/model_to_dataframe/stata/inte_site_randomization.dta"
-tempfile randomization
-save `randomization'
-
-do "/Users/erikvw/Documents/ucl/protocols/inte/stata/open_table.do" "20230306" "edc_registration" "registeredsubject"
-keep subject_identifier site_id country consent_datetime gender dob
-merge m:1 site_id using `randomization'
-drop if _merge==2
-drop _merge
-*/
+do "${do_folder}demographics_and_assignment.do"
 
 // pwd
 // tempfile registeredsubject

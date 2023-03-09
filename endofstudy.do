@@ -2,27 +2,9 @@
 
 clear
 
-/*
-use "/Users/erikvw/Documents/ucl/protocols/inte/export/model_to_dataframe/stata/inte_site_randomization.dta"
-tempfile randomization
-save `randomization'
+quietly: do "get_env.do"
 
-
-do "/Users/erikvw/Documents/ucl/protocols/inte/stata/open_table.do" "20230306" "edc_registration" "registeredsubject"
-keep subject_identifier site_id country consent_datetime gender dob
-merge m:1 site_id using `randomization'
-drop if _merge==2
-drop _merge
-tempfile registeredsubject
-save `registeredsubject'
-*/
-
-do "/Users/erikvw/Documents/ucl/protocols/inte/stata/open_table.do" "20230306" "inte_prn" "endofstudy" "add_demographics"
-
-/*
-drop site_id country
-merge 1:1 subject_identifier using `registeredsubject'
-*/
+do "${do_folder}open_table.do" "inte_prn" "endofstudy" "add_demographics"
 
 list other_offschedule_reason if other_offschedule_reason != "" & offschedule_reason_name =="OTHER"
 
@@ -68,7 +50,7 @@ tempfile endofstudy
 save `endofstudy'
 
 
-do "/Users/erikvw/Documents/ucl/protocols/inte/stata/baseline_diagnoses.do"
+do "${do_folder}baseline_diagnoses.do"
 merge 1:1 subject_identifier using `endofstudy'
 tab _merge
 drop _merge

@@ -2,21 +2,11 @@
 
 clear
 
-use "/Users/erikvw/Documents/ucl/protocols/inte/export/model_to_dataframe/stata/inte_site_randomization.dta"
-tempfile randomization
-save `randomization'
+quietly: do "get_env.do"
 
+quietly: include "${do_folder}demographics_and_assignment.do"
 
-do "/Users/erikvw/Documents/ucl/protocols/inte/stata/open_table.do" "20230306" "edc_registration" "registeredsubject"
-keep subject_identifier site_id country consent_datetime gender dob
-merge m:1 site_id using `randomization'
-drop if _merge==2
-drop _merge
-tempfile registeredsubject
-save `registeredsubject'
-
-
-do "/Users/erikvw/Documents/ucl/protocols/inte/stata/open_table.do" "20230306" "inte_subject" "indicators"
+quietly: do "/Users/erikvw/Documents/ucl/protocols/inte/stata/open_table.do" "inte_subject" "indicators"
 
 sort subject_identifier report_datetime
 
@@ -36,7 +26,7 @@ list subject_identifier report_datetime duration dia_mean dia_diff dia_perc_c
 tempfile indicators
 save `indicators'
 
-do "/Users/erikvw/Documents/ucl/protocols/inte/stata/endofstudy.do"
+quietly: include "/Users/erikvw/Documents/ucl/protocols/inte/stata/endofstudy.do"
 tempfile endofstudy
 save `endofstudy'
 
@@ -51,4 +41,4 @@ drop if _merge != 3
 drop _merge
 count
 
-mean dia_perc_c if htn == 1 & assignment == "intervention"
+summarize dia_perc_c

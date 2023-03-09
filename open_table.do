@@ -2,32 +2,26 @@
 
 clear
 
-local do_folder "~/Documents/ucl/protocols/inte/stata/"
+quietly:  do "get_env.do"
 
-local date_stamp "`1'" // e.g "20230306"
-local app_label "`2'"  // e.g. "inte_subject"
-local table_name "`3'"  // e.g. "clinicalreviewbaseline"
-local add_demographics "`4'" // e.g. "add_demographics" or nothing
-local dta_filename  "`app_label'_`table_name'_`date_stamp'.dta"
-
-
-pwd
-di "`dta_filename'"
+local app_label "`1'"  // e.g. "inte_subject"
+local table_name "`2'"  // e.g. "clinicalreviewbaseline"
+local add_demographics "`3'" // e.g. "add_demographics" or nothing
+local dta_filename  "`app_label'_`table_name'_${date_stamp}.dta"
 
 if "`add_demographics'" == "add_demographics" {
-	do "`do_folder'demographics_and_assignment.do" date_stamp do_folder
-} 
-
-use "`dta_filename'"
-do "`do_folder'excluded_subjects.do"
-
-if "`add_demographics'" == "add_demographics" {
+	quietly:  include "${do_folder}demographics_and_assignment.do"
+	use "`dta_filename'"
+	quietly:  do "${do_folder}excluded_subjects.do"
 	drop site_id
-	merge 1:1 subject_identifier using `registeredsubject'
+	merge 1:1 subject_identifier using "`registeredsubject'"
 	drop _merge
 	tab country
 }
 else {
-	do "`do_folder'sites_to_country.do"
+	use "`dta_filename'"
+	quietly:  do "${do_folder}excluded_subjects.do"
+	quietly: do "${do_folder}sites_to_country.do"
 }
+
 /* end open_table.do */
