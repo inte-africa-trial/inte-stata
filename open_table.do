@@ -20,7 +20,7 @@ if "`add_demographics'" == "add_demographics" {
 }
 else {
 	use "`dta_filename'"
-	quietly:  do "${do_folder}excluded_subjects.do"
+	quietly: do "${do_folder}excluded_subjects.do"
 	quietly: do "${do_folder}sites_to_country.do"
 }
 
