@@ -5,7 +5,7 @@ quietly: do "get_env.do"
 
 quietly: include "${do_folder}demographics_and_assignment.do"
 
-do "/Users/erikvw/Documents/ucl/protocols/inte/stata/open_table.do" "inte_subject" "clinicalreviewbaseline"
+do "${do_folder}open_table.do" "inte_subject" "clinicalreviewbaseline"
 
 
 // hiv-only baseline
