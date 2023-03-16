@@ -60,6 +60,6 @@ tab offschedule_reason dx
 
 
 
-tab cohort offschedule_reason if assignment == "control" & ncd==1
+* tab cohort offschedule_reason if assignment == 2 & ncd==1
 
 /* end endofstudy.do */

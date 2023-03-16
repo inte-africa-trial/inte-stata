@@ -68,13 +68,13 @@ label values dx dx_labels
 gen ncd = 1 if hiv == 0 & (dm!=0 | htn!=0)
 replace ncd = 0 if ncd != 1
 label variable ncd "DM, HTN or both"
-label define ncd_labels 1 "ncd" 0 "hiv-only"
+label define ncd_labels 1 "ncd only" 0 "ncd with hiv"
 label values ncd ncd_labels 
 
 
 label define cohort_labels 1 "hiv-only" 2 "ncd-only" 3 "hiv-ncd"
 gen cohort = 1 if hiv == 1 & dm == 0 & htn == 0
-replace cohort = 2 if hiv == 0 & ncd==1
+replace cohort = 2 if ncd==1
 replace cohort = 3 if hiv == 1 & (dm!=0 | htn!=0)
 label values cohort cohort_labels
 tab cohort
